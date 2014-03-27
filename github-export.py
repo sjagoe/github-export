@@ -21,12 +21,12 @@ def sha1(data):
 def bucket(destination, sha):
     bucket = os.path.join(destination, sha[:2])
     if os.path.exists(bucket) and not os.path.isdir(bucket):
-        raise RuntimeError('Invalid bucket: {!r}'.format(bucket))
+        raise RuntimeError('Invalid bucket: {0!r}'.format(bucket))
     if not os.path.exists(bucket):
         os.makedirs(bucket)
     location = os.path.join(bucket, sha[2:])
     if os.path.exists(location) and not os.path.isdir(location):
-        raise RuntimeError('Destination exists: {!r}'.format(location))
+        raise RuntimeError('Destination exists: {0!r}'.format(location))
     return location
 
 
@@ -35,13 +35,13 @@ def check_rate_limit(gh):
     remaining, _ = gh.rate_limiting
     wait = resettime - time.time()
     if remaining % 100 == 0:
-        print 'Requests remaining: {}; resets in {:.1f} minutes'.format(
+        print 'Requests remaining: {0}; resets in {1:.1f} minutes'.format(
             remaining, wait / 60)
     if remaining <= 50:
-        print '{}: Waiting for reset time: {} seconds'.format(
+        print '{0}: Waiting for reset time: {1} seconds'.format(
             datetime.datetime.now().isoformat(b' '), wait)
         time.sleep(wait)
-        print '{}: Waking up from sleep'.format(
+        print '{0}: Waking up from sleep'.format(
             datetime.datetime.now().isoformat(b' '))
 
 
@@ -75,7 +75,7 @@ class Exporter(object):
         self.target_directory = target_directory
 
     def export_repository(self, owner, name):
-        full_name = '{}/{}'.format(owner, name)
+        full_name = '{0}/{1}'.format(owner, name)
         repo = self.gh.get_repo(full_name)
         repo_directory = os.path.join(self.target_directory, owner, name)
         if not os.path.exists(repo_directory):
