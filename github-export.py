@@ -125,9 +125,9 @@ class Exporter(object):
 def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('--token', help='Auth token')
-    parser.add_argument('owner', nargs=1, help='Owner of the repository')
-    parser.add_argument('repo', nargs=1, help='Repository name')
-    parser.add_argument('destination', nargs=1)
+    parser.add_argument('owner', help='Owner of the repository')
+    parser.add_argument('repo', help='Repository name')
+    parser.add_argument('destination')
     return parser.parse_args(args)
 
 
