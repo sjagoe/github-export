@@ -25,8 +25,6 @@ def bucket(destination, sha):
     if not os.path.exists(bucket):
         os.makedirs(bucket)
     location = os.path.join(bucket, sha[2:])
-    if os.path.exists(location) and not os.path.isdir(location):
-        raise RuntimeError('Destination exists: {0!r}'.format(location))
     return location
 
 
@@ -37,7 +35,7 @@ def check_rate_limit(gh):
     if remaining % 100 == 0:
         print 'Requests remaining: {0}; resets in {1:.1f} minutes'.format(
             remaining, wait / 60)
-    if remaining <= 50:
+    if remaining <= 50 and wait > 0:
         print '{0}: Waiting for reset time: {1} seconds'.format(
             datetime.datetime.now().isoformat(b' '), wait)
         time.sleep(wait)
@@ -118,7 +116,8 @@ class Exporter(object):
         data = json.dumps(json_data)
         sha = sha1(data)
         location = bucket(destination, sha)
-        with open(location, 'w') as fh:
+        filename = '{0}.{1}'.format(location, type_)
+        with open(filename, 'w') as fh:
             fh.write(data)
 
 
