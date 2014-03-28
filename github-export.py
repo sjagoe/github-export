@@ -113,7 +113,7 @@ class Exporter(object):
             'raw_data': obj.raw_data,
             'headers': obj.raw_headers,
         }
-        data = json.dumps(json_data)
+        data = json.dumps(json_data, sort_keys=True, indent=4)
         sha = sha1(data)
         location = bucket(destination, sha)
         filename = '{0}.{1}'.format(location, type_)
